@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendación de Lista de Compras</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Color de fondo negro */
+            color: #fff; /* Color del texto blanco */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background-color 0.5s ease; /* Transición de color de fondo */
+        }
+        .container {
+            text-align: center;
+            transition: opacity 0.5s ease; /* Transición de opacidad */
+            opacity: 1; /* Agrega opacidad inicial para que la página sea visible */
+        }
+
+        /* Estilos para el contenido principal */
+        #paginaInicio, #paginaPrincipal, #ventanaHolaMundo, #paginaListaCompras {
+            opacity: 1; /* Asegura que el contenido sea visible por defecto */
+            transition: opacity 0.5s ease; /* Transición de opacidad */
+        }
+        form {
+            background-color: #fff; /* Color de fondo blanco */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%; /* Ancho del formulario al 90% */
+            max-width: 400px; /* Ancho máximo del formulario */
+            margin-top: 20px; /* Espaciado superior */
+            text-align: center; /* Alineación del texto */
+            transition: background-color 0.3s ease; /* Transición de color de fondo */
+        }
+        h1, h2, h3 {
+            color: #fff; /* Color del texto blanco */
+            transition: color 0.3s ease; /* Transición de color de texto */
+        }
+        h3 {
+            font-size: 1.5em; /* Tamaño de la letra h3 */
+        }
+        label {
+            color: #000; /* Color del texto negro */
+            text-align: left; /* Alineación del texto */
+            transition: color 0.3s ease; /* Transición de color de texto */
+        }
+        select, input[type="number"], input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease; /* Transición de color de borde */
+        }
+        input[type="button"] {
+            background-color: #4caf50; /* Color verde */
+            color: #fff; /* Color del texto blanco */
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Transición de color de fondo, texto y borde */
+            border: 2px solid #4caf50; /* Borde sólido de 2px con color verde */
+            padding: 10px 20px; /* Espaciado interno */
+            border-radius: 5px; /* Borde redondeado */
+        }
+        input[type="button"]:hover {
+            background-color: #45a049; /* Cambio de color al pasar el mouse */
+            border-color: #45a049; /* Cambio de color del contorno al pasar el mouse */
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center; /* Alinea el texto al centro */
+            margin-left: 0; /* Elimina el margen a la izquierda */
+        }
+        li {
+            margin-bottom: 5px;
+            color: #fff; /* Color blanco */
+            font-size: 16px; /* Tamaño de letra */
+            transition: color 0.3s ease; /* Transición de color de texto */
+            text-align: center; /* Alinea el texto al centro */
+        }
+
+        /* Estilos para el contenido de "Recomendación de Lista de Compras" */
+        #paginaPrincipal h1 {
+            color: #000; /* Color del texto negro */
+            text-align: center; /* Centra el texto */
+        }
+
+        /* Estilos para centrar verticalmente los párrafos */
+        #ventanaHolaMundo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="paginaInicio">
+        <h1>Bienvenido a la Página de Inicio</h1>
+        <img src="https://img.freepik.com/vector-gratis/comida-bebida-logo-comida-sana-plana-dibujada-mano_23-2149632256.jpg?w=826&t=st=1715485763~exp=1715486363~hmac=d236b3d241ff2632c8837c3129c052ba4c48d75a5703f14f9e52c54cbbc24ff5" alt="logo" style="width: 200px; height: auto; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
+        <p>Haz clic en el botón de abajo para ir a la página de lo que trata esta app.</p>
+        <button id="recomendacion" onclick="mostrarHolaMundo()" style="background-color: #4caf50; color: #fff; border: 3px solid #4caf50; padding: 10px 20px; border-radius: 5px;">Veamos de qué Trata</button>
+    </div>
+
+    <div class="container" id="paginaPrincipal" style="display: none;">
+        <form id="comprasForm">
+            <h1>Recomendación de Lista de Compras</h1>
+            <label for="altura">Altura (cm):</label>
+            <input type="number" id="altura" name="altura" step="any" required min="0"><br><br>
+            <label for="peso">Peso (kg):</label>
+            <input type="number" id="peso" name="peso" step="any" required><br><br>
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" required><br><br>
+            <label for="genero">Género:</label>
+            <select id="genero" name="genero">
+                <option value="mujer">Mujer</option>
+                <option value="hombre">Hombre</option>
+            </select><br><br>
+            <input type="button" value="Obtener Lista de Compras" onclick="obtenerListaCompras()">
+        </form>
+    </div>
+
+    <main class="container" id="ventanaHolaMundo" style="display: none;">
+        <h1>Hola Mundo</h1>
+        <img src="https://www.salud.gob.ec/wp-content/uploads/2019/06/titular_alimentacionsaludable-14.png" alt="alimentacion saludable" style="width: 300px; height: auto; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
+        <p>Esta página está diseñada para ofrecerte una experiencia personalizada en la planificación de tus compras de alimentos. Al ingresar información como altura, peso, edad y género, recibirás recomendaciones específicas de lista de compras adaptadas a tus necesidades individuales.</p>
+        <p>Nuestro objetivo es facilitar la toma de decisiones saludables y eficientes en cuanto a la compra de alimentos, promoviendo hábitos de vida conscientes y bienestar general.</p>
+        <button onclick="mostrarPrincipal()" style="background-color: #4caf50; color: #fff; border: 3px solid #4caf50; padding: 10px 20px; border-radius: 5px;">Veamos Tu Lista de Compras</button>
+    </main>
+
+    <div class="container" id="paginaListaCompras" style="display: none;">
+        <h1>Lista de Compras Recomendada</h1>
+        <ul id="listaComprasResultado"></ul>
+    </div>
+
+    <script>
+        function mostrarHolaMundo() {
+            document.getElementById("paginaInicio").style.opacity = "0";
+            document.getElementById("ventanaHolaMundo").style.opacity = "1";
+            setTimeout(() => {
+                document.getElementById("paginaInicio").style.display = "none";
+                document.getElementById("ventanaHolaMundo").style.display = "block";
+            }, 500); // Tiempo de espera para la transición antes de cambiar la visualización
+        }
+    
+        function mostrarPrincipal() {
+            document.getElementById("ventanaHolaMundo").style.opacity = "0";
+            document.getElementById("paginaInicio").style.opacity = "1";
+            setTimeout(() => {
+                document.getElementById("ventanaHolaMundo").style.display = "none";
+                document.getElementById("paginaInicio").style.display = "none";
+                document.getElementById("paginaPrincipal").style.display = "block";
+            }, 500); // Tiempo de espera para la transición antes de cambiar la visualización
+        }
+    
+        function obtenerListaCompras() {
+            var altura = parseFloat(document.getElementById("altura").value);
+            var peso = parseFloat(document.getElementById("peso").value);
+            var edad = parseInt(document.getElementById("edad").value);
+            var genero = document.getElementById("genero").value;
+
+            var listaCompras = recomendarListaCompras(altura, peso, edad, genero);
+            
+            // Mostrar la lista de compras recomendada
+            var listaComprasResultado = document.getElementById("listaComprasResultado");
+            listaComprasResultado.innerHTML = ""; // Limpiar la lista antes de agregar elementos
+
+            listaCompras.forEach(function(item) {
+                var li = document.createElement("li");
+                li.textContent = item;
+                listaComprasResultado.appendChild(li);
+            });
+
+            // Mostrar la página con la lista de compras recomendada
+            document.getElementById("paginaPrincipal").style.opacity = "0";
+            document.getElementById("paginaListaCompras").style.opacity = "1";
+            setTimeout(() => {
+                document.getElementById("paginaPrincipal").style.display = "none";
+                document.getElementById("paginaListaCompras").style.display = "block";
+            }, 500); // Tiempo de espera para la transición antes de cambiar la visualización
+        }
+
+        function recomendarListaCompras(altura, peso, edad, genero) {
+    var listaCompras = [];
+
+    // Lógica para recomendar la lista de compras en función de los datos proporcionados
+
+    if (genero === "mujer") {
+        if (altura >= 140 && altura < 149 && peso >= 41 && peso <= 53) {
+            listaCompras = [
+                {
+                    nombre: "Manzanas (4 unidades)",
+                    imagenURL: "https://www.recetasnestlecam.com/sites/default/files/2022-04/tipos-de-manzana-royal-gala.jpg"
+                },
+                        "Plátanos (6 unidades)",
+                        "Naranjas (4 unidades)",
+                        "Zanahorias (500 gramos)",
+                        "Espinacas (250 gramos)",
+                        "Tomates (500 gramos)",
+                        "Pepinos (2 unidades)",
+                        "Pimientos (2 unidades)",
+                        "***************************************************Proteinas:********************************************************************************************",
+                        "Pollo (500 gramos)",
+                        "Pescado (400 gramos)",
+                        "Huevos (1 docena)",
+                        "Tofu (400 gramos)",
+                        "***************************************************Granos y Legumbres:********************************************************************************************",
+                        "Arroz integral (1 kg)",
+                        "Quinoa (500 gramos)",
+                        "Pan integral (1 barra)",
+                        "Lentejas (500 gramos",
+                        "***************************************************Lacteos y Alternativas:********************************************************************************************",
+                        "Leche (1 litro)",
+                        "Yogur natural (4 unidades)",
+                        "Queso fresco (250 gramos)",
+                        "Leche de almendras (1 litro)",
+                        "***************************************************Aceites y Condimentos:********************************************************************************************",
+                        "Aceite de oliva (500 ml)",
+                        "Sal marina",
+                        "Pimienta",
+                        "Hierbas frescas (perejil, albahaca, etc.)",
+                        "***************************************************Snacks Saludables:********************************************************************************************",
+                        "Frutos secos (nueces, almendras, etc.) (250 gramos)",
+                        "Palomitas de maíz sin mantequilla ni sal añadida (1 paquete)",
+                        "Barritas de cereales integrales (6 unidades)",
+                        "***************************************************Bebidas:********************************************************************************************",
+                        "Agua mineral (2 litros)",
+                        "Té verde (opcional)",
+                        "Infusiones de hierbas (opcional)"
+                    ];
+
+
+                } else if (altura >= 150 && altura < 159 && peso >= 44 && peso <= 58) {
+                    listaCompras = [
+                        "***************************************************Frutas y Verduras:********************************************************************************************",
+                        "Manzanas (5 unidades)",
+                        "Plátanos (7 unidades)",
+                        "Naranjas (5 unidades)",
+                        "Zanahorias (600 gramos)",
+                        "Espinacas (300 gramos)",
+                        "Tomates (600 gramos)",
+                        "Pepinos (3 unidades)",
+                        "Pimientos (3 unidades)",
+                        "***************************************************Proteinas:********************************************************************************************",
+                        "Pollo (600 gramos)",
+                        "Pescado (500 gramos)",
+                        "Huevos (1 docena)",
+                        "Tofu (500 gramos)",
+                        "***************************************************Granos y Legumbres:********************************************************************************************",
+                        "Arroz integral (1.5 kg)",
+                        "Quinoa (600 gramos)",
+                        "Pan integral (1 barra)",
+                        "Lentejas (600 gramos",
+                        "***************************************************Lacteos y Alternativas:********************************************************************************************",
+                        "Leche (1.5 litro)",
+                        "Yogur natural (6 unidades)",
+                        "Queso fresco (300 gramos)",
+                        "Leche de almendras (1.5 litro)",
+                        "***************************************************Aceites y Condimentos:********************************************************************************************",
+                        "Aceite de oliva (750 ml)",
+                        "Sal marina",
+                        "Pimienta",
+                        "Hierbas frescas (perejil, albahaca, etc.)",
+                        "***************************************************Snacks Saludables:********************************************************************************************",
+                        "Frutos secos (nueces, almendras, etc.) (300 gramos)",
+                        "Palomitas de maíz sin mantequilla ni sal añadida (1 paquete)",
+                        "Barritas de cereales integrales (8 unidades)",
+                        "***************************************************Bebidas:********************************************************************************************",
+                        "Agua mineral (3 litros)",
+                        "Té verde (opcional)",
+                        "Infusiones de hierbas (opcional)"
+                        ];
+
+                } else if (altura >= 160 && altura < 169 && peso >= 50 && peso <= 64) {
+                    listaCompras = [
+                        "********************************************************Frutas y Verduras:********************************************************************************************",
+                        "Manzanas (6 unidades)",
+                        "Plátanos (8 unidades)",
+                        "Naranjas (6 unidades)",
+                        "Zanahorias 7500 gramos)",
+                        "Espinacas (350 gramos)",
+                        "Tomates (700 gramos)",
+                        "Pepinos (4 unidades)",
+                        "Pimientos (4 unidades)",
+                        "Aguacates (3 unidades)",
+                        "***************************************************Proteinas:********************************************************************************************",
+                        "Pollo (700 gramos)",
+                        "Pescado (600 gramos)",
+                        "Huevos (1 docena)",
+                        "Tofu (600 gramos)",
+                        "Carne magra de res (500 gramos)",
+                        "***************************************************Granos y Legumbres:********************************************************************************************",
+                        "Arroz integral (2 kg)",
+                        "Quinoa (700 gramos)",
+                        "Pan integral (1 barra)",
+                        "Lentejas (700 gramos",
+                        "***************************************************Lacteos y Alternativas:********************************************************************************************",
+                        "Leche (2 litro)",
+                        "Yogur natural (8 unidades)",
+                        "Queso fresco (400 gramos)",
+                        "Leche de almendras (2 litro)",
+                        "***************************************************Aceites y Condimentos:********************************************************************************************",
+                        "Aceite de oliva (1 litro)",
+                        "Sal marina",
+                        "Pimienta",
+                        "Hierbas frescas (perejil, albahaca, etc.)",
+                        "***************************************************Snacks Saludables:********************************************************************************************",
+                        "Frutos secos (nueces, almendras, etc.) (350 gramos)",
+                        "Palomitas de maíz sin mantequilla ni sal añadida (1 paquete)",
+                        "Barritas de cereales integrales (10 unidades)",
+                        "***************************************************Bebidas:********************************************************************************************",
+                        "Agua mineral (3.5 litros)",
+                        "Té verde (opcional)",
+                        "Infusiones de hierbas (opcional)"
+                    ];
+                } else if (altura >= 170 && altura < 179 && peso >= 57 && peso <= 71) {
+                    listaCompras = [
+                    "***************************************************Frutas y Verduras:********************************************************************************************",
+                        "Manzanas (7 unidades)",
+                        "Plátanos (9 unidades)",
+                        "Naranjas (7 unidades)",
+                        "Zanahorias (800 gramos)",
+                        "Espinacas (400 gramos)",
+                        "Tomates (800 gramos)",
+                        "Pepinos (5 unidades)",
+                        "Pimientos (5 unidades)",
+                        "Aguacates (4 unidades)",
+                        "***************************************************************Proteinas:********************************************************************************************",
+                        "Pollo (800 gramos)",
+                        "Pescado (700 gramos)",
+                        "Huevos (1 docena)",
+                        "Tofu (700 gramos)",
+                        "Carne magra de res (600 gramos)",
+                        "***************************************************Granos y Legumbres:********************************************************************************************",
+                        "Arroz integral (2.5 kg)",
+                        "Quinoa (800 gramos)",
+                        "Pan integral (1 barra)",
+                        "Lentejas (800 gramos",
+                        "***************************************************Lacteos y Alternativas:********************************************************************************************",
+                        "Leche (2.5 litro)",
+                        "Yogur natural (10 unidades)",
+                        "Queso fresco (500 gramos)",
+                        "Leche de almendras (2.5 litro)",
+                        "***************************************************Aceites y Condimentos:********************************************************************************************",
+                        "Aceite de oliva (1.25 litros)",
+                        "Sal marina",
+                        "Pimienta",
+                        "Hierbas frescas (perejil, albahaca, etc.)",
+                        "***************************************************Snacks Saludables:********************************************************************************************",
+                        "Frutos secos (nueces, almendras, etc.) (400 gramos)",
+                        "Palomitas de maíz sin mantequilla ni sal añadida (1 paquete)",
+                        "Barritas de cereales integrales (12 unidades)",
+                        "***************************************************Bebidas:********************************************************************************************",
+                        "Agua mineral (4 litros)",
+                        "Té verde (opcional)",
+                        "Infusiones de hierbas (opcional)"
+                    ];
+                } else if (altura >= 180 && altura < 200 && peso >= 65 && peso <= 85) {
+                    listaCompras = [
+                    "***************************************************Frutas y Verduras:********************************************************************************************",
+                        "Manzanas (8 unidades)",
+                        "Plátanos (10 unidades)",
+                        "Naranjas (8 unidades)",
+                        "Zanahorias (900 gramos)",
+                        "Espinacas (450 gramos)",
+                        "Tomates (900 gramos)",
+                        "Pepinos (6 unidades)",
+                        "Pimientos (6 unidades)",
+                        "Aguacates (5 unidades)",
+                        "***************************************************Proteinas:********************************************************************************************",
+                        "Pollo (900 gramos)",
+                        "Pescado (800 gramos)",
+                        "Huevos (1 docena)",
+                        "Tofu (800 gramos)",
+                        "Carne magra de res (700 gramos)",
+                        "***************************************************Granos y legumbres:********************************************************************************************",
+                        "Arroz integral (3 kg)",
+                        "Quinoa (900 gramos)",
+                        "Pan integral (1 barra)",
+                        "Lentejas (900 gramos",
+                        "***************************************************Lacteos y Alternativas:********************************************************************************************",
+                        "Leche (3 litro)",
+                        "Yogur natural (12 unidades)",
+                        "Queso fresco (600 gramos)",
+                        "Leche de almendras (3 litro)",
+                        "***************************************************Aceites y Condimentos:********************************************************************************************",
+                        "Aceite de oliva (1.5 litros)",
+                        "Sal marina",
+                        "Pimienta",
+                        "Hierbas frescas (perejil, albahaca, etc.)",
+                        "***************************************************Snacks Saludables:********************************************************************************************",
+                        "Frutos secos (nueces, almendras, etc.) (500 gramos)",
+                        "Palomitas de maíz sin mantequilla ni sal añadida (1 paquete)",
+                        "Barritas de cereales integrales (15 unidades)",
+                        "***************************************************Bebidas:********************************************************************************************",
+                        "Agua mineral (5 litros)",
+                        "Té verde (opcional)",
+                        "Infusiones de hierbas (opcional)"
+                    ];
+                } else {
+                    listaCompras = ["No se pudo generar la lista de compras. Por favor, verifica que los valores ingresados sean válidos."];
+                }
+            } else if (genero === "hombre") {
+                if (altura >= 140 && altura < 149 && peso >= 41 && peso <= 53) {
+                    listaCompras = [
+                        "***************************************************Frutas y Verduras:********************************************************************************************",
+                        " Manzanas (6 unidades)",
+                        " Plátanos (8 unidades)",
+                        " Naranjas (6 unidades)",
+                        " Zanahorias (700 gramos)",
+                        " Espinacas (350 gramos)",
+                        " Tomates (700 gramos)",
+                        " Pepinos (4 unidades)",
+                        " Pimientos (4 unidades)",
+                        "***************************************************Proteinas:********************************************************************************************",
+                        "Pollo (700 gramos)",
+                        " Pescado (600 gramos)",
+                        " Huevos (1 docena)",
+                        " Tofu (600 gramos)",
+                        " Carne magra de res (500 gramos)",
+                        "***************************************************Granos y Legumbres:********************************************************************************************",
+                        " Arroz integral (2 kg)",
+                        " Quinoa (700 gramos)",
+                        " Lentejas (700 gramos)",
+                        " Pan integral (1 barra)",
+                        "***************************************************Lacteos y Alternativas:********************************************************************************************",
+                        " Leche (2 litros)",
+                        " Yogur natural (8 unidades)",
+                        " Queso fresco (400 gramos)",
+                        " Leche de almendras (2 litros)",
+                        "***************************************************Aceites y Condimentos:********************************************************************************************",
+                        " Aceite de oliva (1 litro)",
+                        " Sal marina",
+                        " Pimienta",
+                        " Hierbas frescas (perejil, albahaca, etc.)",
+                        "***************************************************Snacks Saludables:********************************************************************************************",
+                        " Frutos secos (nueces, almendras, etc.) (400 gramos)",
+                        " Palomitas de maíz sin mantequilla ni sal añadida (1 paquete)",
+                        " Barritas de cereales integrales (12 unidades)",
+                        "***************************************************Bebidas:********************************************************************************************",
+                        " Agua mineral (4 litros)",
+                        " Té verde (opcional)",
+                        " Infusiones de hierbas (opcional)"
+                    ];
+                } else if (altura >= 150 && altura < 159 && peso >= 44 && peso <= 58) {
+                    listaCompras = [
+                        "***************************************************Frutas y Verduras:********************************************************************************************",
+                        " Manzanas (7 unidades)",
+                        " Plátanos (9 unidades)",
+                        " Naranjas (7 unidades)",
+                        " Zanahorias (800 gramos)",
+                        " Espinacas (400 gramos)",
+                        " Tomates (800 gramos)",
+                        " Pepinos (5 unidades)",
+                        " Pimientos (5 unidades)",
+                        "Aguacates (4 unidades)",
+                        "***************************************************Proteinas:********************************************************************************************",
+                        "Pollo (800 gramos)",
+                        " Pescado (700 gramos)",
+                        " Huevos (1 docena)",
+                        " Tofu (700 gramos)",
+                        " Carne magra de res (600 gramos)",
+                        "***************************************************Granos y Legumbres:********************************************************************************************",
+                        " Arroz integral (2.5 kg)",
+                        " Quinoa (800 gramos)",
+                        " Lentejas (800 gramos)",
+                        " Pan integral (1 barra)",
+                        "***************************************************Lacteos y Alternativas:********************************************************************************************",
+                        " Leche (2.5 litros)",
+                        " Yogur natural (10 unidades)",
+                        " Queso fresco (500 gramos)",
+                        " Leche de almendras (2.5 litros)",
+                        "***************************************************Aceites y Condimentos:********************************************************************************************",
+                        " Aceite de oliva (1.25 litro)",
+                        " Sal marina",
+                        " Pimienta",
+                        " Hierbas frescas (perejil, albahaca, etc.)",
+                        "***************************************************Snacks Saludables:********************************************************************************************",
+                        " Frutos secos (nueces, almendras, etc.) (500 gramos)",
+                        " Palomitas de maíz sin mantequilla ni sal añadida (1 paquete)",
+                        " Barritas de cereales integrales (15 unidades)",
+                        "***************************************************Bebidas:********************************************************************************************",
+                        " Agua mineral (5 litros)",
+                        " Té verde (opcional)",
+                        " Infusiones de hierbas (opcional)"
+                    ];
+                } else if (altura >= 160 && altura < 169 && peso >= 50 && peso <= 64) {
+                    listaCompras = [
+                        "***************************************************Frutas y Verduras:********************************************************************************************",
+                        " Manzanas (8 unidades)",
+                        " Plátanos (10 unidades)",
+                        " Naranjas (8 unidades)",
+                        " Zanahorias (900 gramos)",
+                        " Espinacas (450 gramos)",
+                        " Tomates (900 gramos)",
+                        " Pepinos (6 unidades)",
+                        " Pimientos (6 unidades)",
+                        "Aguacates (5 unidades)",
+                        "***************************************************Proteinas:********************************************************************************************",
+                        "Pollo (900 gramos)",
+                        " Pescado (800 gramos)",
+                        " Huevos (1 docena)",
+                        " Tofu (800 gramos)",
+                        " Carne magra de res (700 gramos)",
+                        "***************************************************Granos y Legumbres:********************************************************************************************",
+                        " Arroz integral (2.5 kg)",
+                        " Quinoa (900 gramos)",
+                        " Lentejas (900 gramos)",
+                        " Pan integral (1 barra)",
+                        "***************************************************Lacteos y Alternativas:********************************************************************************************",
+                        " Leche (2.5 litros)",
+                        " Yogur natural (10 unidades)",
+                        " Queso fresco (500 gramos)",
+                        " Leche de almendras (2.5 litros)",
+                        "***************************************************Aceites y Condimentos:********************************************************************************************",
+                        " Aceite de oliva (1.25 litro)",
+                        " Sal marina",
+                        " Pimienta",
+                        " Hierbas frescas (perejil, albahaca, etc.)",
+                        "***************************************************Snacks Saludables:********************************************************************************************",
+                        " Frutos secos (nueces, almendras, etc.) (500 gramos)",
+                        " Palomitas de maíz sin mantequilla ni sal añadida (1 paquete)",
+                        " Barritas de cereales integrales (15 unidades)",
+                        "***************************************************Bebidas:********************************************************************************************",
+                        " Agua mineral (5 litros)",
+                        " Té verde (opcional)",
+                        " Infusiones de hierbas (opcional)"
+                    ];
+                } else if (altura >= 170 && altura < 179 && peso >= 57 && peso <= 71) {
+                    listaCompras = [
+                        "***************************************************Frutas y Verduras:********************************************************************************************",
+                        " Manzanas (10 unidades)",
+                        " Plátanos (12 unidades)",
+                        " Naranjas (10 unidades)",
+                        " Zanahorias (1.2 kg)",
+                        " Espinacas (600 gramos)",
+                        " Tomates (1.2 kg)",
+                        " Pepinos (8 unidades)",
+                        " Pimientos (8 unidades)",
+                        "Aguacates (7 unidades)",
+                        "***************************************************Proteninas:********************************************************************************************",
+                        "Pollo (1.2 kg)",
+                        " Pescado (1 kg)",
+                        " Huevos (2 docena)",
+                        " Tofu (1 kg)",
+                        " Carne magra de res (1 kg)",
+                        "***************************************************Granos y Legumbres:********************************************************************************************",
+                        " Arroz integral (4 kg)",
+                        " Quinoa (1.2 gramos)",
+                        " Lentejas (1.2 gramos)",
+                        " Pan integral (3 barra)",
+                        "***************************************************Lacteos y Alternativas:********************************************************************************************",
+                        " Leche (4 litros)",
+                        " Yogur natural (16 unidades)",
+                        " Queso fresco (800 gramos)",
+                        " Leche de almendras (4 litros)",
+                        "***************************************************Aceites y Condimentos:********************************************************************************************",
+                        " Aceite de oliva (2 litros)",
+                        " Sal marina",
+                        " Pimienta",
+                        " Hierbas frescas (perejil, albahaca, etc.)",
+                        "***************************************************Snacks Saludables:********************************************************************************************",
+                        " Frutos secos (nueces, almendras, etc.) (800 gramos)",
+                        " Palomitas de maíz sin mantequilla ni sal añadida (3 paquete)",
+                        " Barritas de cereales integrales (25 unidades)",
+                        "***************************************************Bebidas:******************************************************************************************",
+                        " Agua mineral (8 litros)",
+                        " Té verde (opcional)",
+                        " Infusiones de hierbas (opcional)"
+                    ];
+                } else if (altura >= 170 && altura < 179 && peso >= 57 && peso <= 71) {
+                    listaCompras = [
+                    "***************************************************Frutas y Verduras:********************************************************************************************",
+                        " Manzanas (10 unidades)"<img ,src="ruta/de/la/imagen.jpg",alt="Descripción de la imagen">
+                        " Plátanos (12 unidades)",
+                        " Naranjas (10 unidades)",
+                        " Zanahorias (1.2 kg)",
+                        " Espinacas (600 gramos)",
+                        " Tomates (1.2 kg)",
+                        " Pepinos (8 unidades)",
+                        " Pimientos (8 unidades)",
+                        "Aguacates (7 unidades)",
+                        "***************************************************Proteninas:********************************************************************************************",
+                        "Pollo (1.2 kg)",
+                        " Pescado (1 kg)",
+                        " Huevos (2 docena)",
+                        " Tofu (1 kg)",
+                        " Carne magra de res (1 kg)",
+                        "***************************************************Granos y Legumbres:********************************************************************************************",
+                        " Arroz integral (4 kg)",
+                        " Quinoa (1.2 gramos)",
+                        " Lentejas (1.2 gramos)",
+                        " Pan integral (3 barra)",
+                        "***************************************************Lacteos y Alternativas:********************************************************************************************",
+                        " Leche (4 litros)",
+                        " Yogur natural (16 unidades)",
+                        " Queso fresco (800 gramos)",
+                        " Leche de almendras (4 litros)",
+                        "***************************************************Aceites y Condimentos:********************************************************************************************",
+                        " Aceite de oliva (2 litros)",
+                        " Sal marina",
+                        " Pimienta",
+                        " Hierbas frescas (perejil, albahaca, etc.)",
+                        "***************************************************Snacks Saludables:********************************************************************************************",
+                        " Frutos secos (nueces, almendras, etc.) (800 gramos)",
+                        " Palomitas de maíz sin mantequilla ni sal añadida (3 paquete)",
+                        " Barritas de cereales integrales (25 unidades)",
+                        "***************************************************Bebidas:******************************************************************************************",
+                        " Agua mineral (8 litros)",
+                        " Té verde (opcional)",
+                        " Infusiones de hierbas (opcional)"
+                    ];
+
+                } else {
+                    listaCompras = ["No se pudo generar la lista de compras. Por favor, verifica que los valores ingresados sean válidos."];
+                }
+            }
+
+            return listaCompras;
+        }
+
+    // Una vez que tengas la lista de compras recomendada, puedes mostrarla en el HTML
+    const listaComprasDiv = document.getElementById("listaCompras");
+            listaComprasDiv.innerHTML = "<h2>Lista de Compras Recomendada:</h2>";
+            listaCompras.forEach(item => {
+                const div = document.createElement('div');
+                const img = document.createElement('img');
+                img.src = item.imagenURL;
+                img.alt = item.nombre;
+                const p = document.createElement('p');
+                p.textContent = item.nombre;
+                div.appendChild(img);
+                div.appendChild(p);
+                listaComprasDiv.appendChild(div);
+            });
+        
+            
+    </script>
+</body>
+</html>
+"filezilla
+"
